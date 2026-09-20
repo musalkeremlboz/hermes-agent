@@ -18,6 +18,7 @@ export interface ArchiveAffordanceInput {
  * (`session.set_hidden`): the transcript stays resumable, nothing is deleted.
  */
 export function shouldOfferArchive(input: ArchiveAffordanceInput): boolean {
-  if (input.busy || input.isArchived || !input.isLastAssistant) return false
+  if (input.busy || input.isArchived || !input.isLastAssistant) {return false}
+
   return input.idleMs >= ARCHIVE_IDLE_MS
 }

@@ -17,6 +17,7 @@ import { useComposerScope } from '@/app/chat/composer/scope'
 import { useSessionView } from '@/app/chat/session-view'
 import { SETTINGS_ROUTE } from '@/app/routes'
 import { dispatchedTo } from '@/components/assistant-ui/thread/agent-delivery'
+import { ArchiveButton } from '@/components/assistant-ui/thread/archive-button'
 import { ChangedFilesCard } from '@/components/assistant-ui/thread/changed-files-card'
 import {
   contentHasVisibleText,
@@ -999,6 +1000,12 @@ const AssistantActionBar: FC<MessageActionProps & { durationS?: number }> = ({
           </TooltipIconButton>
         </ActionBarPrimitive.Reload>
       </ActionBarPrimitive.Root>
+      {/* Outside ActionBarPrimitive.Root, like the reaction slot: the bar is
+          opacity-0 until hover, and an "this work is done, archive it?" offer
+          the user never sees is not an offer. It appears on the newest
+          assistant message once the turn has been quiet for a few minutes. */}
+      <ArchiveButton />
+
       {/* ONE slot, Slack-style: the picker trigger and the landed reaction are
           the same element, so reacting never shifts layout. Empty → ☺, hidden
           until hover like its action-bar neighbors (state lives in styles.css

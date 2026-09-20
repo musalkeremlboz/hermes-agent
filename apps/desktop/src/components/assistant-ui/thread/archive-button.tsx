@@ -31,6 +31,7 @@ export const ArchiveButton: FC = () => {
   const busy = useStore($busy)
   const sessionId = useStore($activeSessionId)
   const profile = useStore($activeProfile)
+
   // Newest message in the thread — the same read SettledChangedFiles uses, so
   // the affordance lands on the turn that just ended, not on every old reply.
   const isLastAssistant = useAuiState(
@@ -46,38 +47,45 @@ export const ArchiveButton: FC = () => {
   useEffect(() => {
     if (busy || !isLastAssistant) {
       setIdleMs(0)
+
       return
     }
+
     const startedAt = Date.now()
+
     const id = window.setInterval(() => {
       const next = Date.now() - startedAt
       setIdleMs(next)
-      if (next >= ARCHIVE_IDLE_MS) window.clearInterval(id)
+
+      if (next >= ARCHIVE_IDLE_MS) {window.clearInterval(id)}
     }, TICK_MS)
+
     return () => window.clearInterval(id)
   }, [busy, isLastAssistant])
 
   // Ask for the hint once, as the affordance is about to appear.
   useEffect(() => {
-    if (!sessionId || busy || idleMs < ARCHIVE_IDLE_MS) return
+    if (!sessionId || busy || idleMs < ARCHIVE_IDLE_MS) {return}
     let cancelled = false
     void requestGatewayForProfile<{ guven: number; oneri: string }>(profile, 'session.closure_hint', {
       session_id: sessionId
     })
       .then(r => {
-        if (!cancelled) setRecommended(r?.oneri === 'arsivle')
+        if (!cancelled) {setRecommended(r?.oneri === 'arsivle')}
       })
       .catch(() => {
         // No hint → no label. The button stays exactly as usable.
       })
+
     return () => {
       cancelled = true
     }
   }, [busy, idleMs, profile, sessionId])
 
   const archive = useCallback(async () => {
-    if (!sessionId) return
+    if (!sessionId) {return}
     setArchived(true) // optimistic: the affordance disappears immediately
+
     try {
       await setSessionArchived(sessionId, true, profile)
     } catch (error) {
@@ -86,7 +94,7 @@ export const ArchiveButton: FC = () => {
     }
   }, [copy.archiveFailed, profile, sessionId])
 
-  if (!shouldOfferArchive({ busy, idleMs, isArchived: archived, isLastAssistant })) return null
+  if (!shouldOfferArchive({ busy, idleMs, isArchived: archived, isLastAssistant })) {return null}
 
   return (
     <span className="inline-flex items-center gap-1" data-slot="aui_msg-archive">
