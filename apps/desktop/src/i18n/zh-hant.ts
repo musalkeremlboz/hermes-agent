@@ -3405,7 +3405,10 @@ export const zhHant = defineLocale({
       restoreNext: '還原至下一個檢查點',
       goForward: '前進',
       sendEdited: '傳送編輯後的訊息',
-      attachingFile: '正在附加…'
+      attachingFile: '正在附加…',
+      archive: '封存工作階段',
+      archiveRecommended: '建議',
+      archiveFailed: '無法封存此工作階段'
     },
     approval: {
       gatewayDisconnected: 'Hermes 閘道未連線',

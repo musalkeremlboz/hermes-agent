@@ -4560,7 +4560,10 @@ export const en: Translations = {
       restoreNext: 'Restore next checkpoint',
       goForward: 'Go forward',
       sendEdited: 'Send edited message',
-      attachingFile: 'Attaching…'
+      attachingFile: 'Attaching…',
+      archive: 'Archive session',
+      archiveRecommended: 'recommended',
+      archiveFailed: 'Could not archive this session'
     },
     approval: {
       gatewayDisconnected:

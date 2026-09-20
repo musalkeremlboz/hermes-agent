@@ -3457,7 +3457,10 @@ export const ja = defineLocale({
       restoreNext: '次のチェックポイントに戻す',
       goForward: '進む',
       sendEdited: '編集済みメッセージを送信',
-      attachingFile: '添付中…'
+      attachingFile: '添付中…',
+      archive: 'セッションをアーカイブ',
+      archiveRecommended: '推奨',
+      archiveFailed: 'このセッションをアーカイブできませんでした'
     },
     approval: {
       gatewayDisconnected: 'Hermes ゲートウェイが接続されていません',

@@ -1061,6 +1061,40 @@ def _(rid, params: dict, session: dict, db) -> dict:
     return _ok(rid, result)
 
 
+@method("session.closure_hint")
+def _(rid, params: dict) -> dict:
+    """Read the jev-routing plugin's closure hint for one session.
+
+    A pure read of a plugin-owned state file. The desktop's Archive button works
+    without it, so a missing, stale, or corrupt file answers ``{"oneri": "bekle"}``
+    rather than failing the call — a broken hint must never cost the affordance.
+    Hints older than ``_CLOSURE_TTL_S`` are ignored: an "arsivle" from an hour ago
+    says nothing about the turn that just ended.
+    """
+    _CLOSURE_TTL_S = 3600.0
+    miss = {"oneri": "bekle", "guven": 0.0}
+    sid = str(params.get("session_id") or "")
+    if not sid:
+        return _ok(rid, miss)
+    # Profile-scoped like every other session RPC: the hint lives under the
+    # owning profile's home, never a hardcoded ~/.hermes (root AGENTS.md).
+    profile_home = _profile_home((params.get("profile") or "").strip() or None)
+    home = Path(profile_home) if profile_home is not None else get_hermes_home()
+    try:
+        data = json.loads((home / "state" / "session-closure.json").read_text())
+        hint = data.get(sid)
+    except (OSError, ValueError, AttributeError):
+        return _ok(rid, miss)
+    if not isinstance(hint, dict):
+        return _ok(rid, miss)
+    try:
+        if time.time() - float(hint.get("ts", 0)) > _CLOSURE_TTL_S:
+            return _ok(rid, miss)
+    except (TypeError, ValueError):
+        return _ok(rid, miss)
+    return _ok(rid, {"oneri": str(hint.get("oneri") or "bekle"), "guven": hint.get("guven", 0.0)})
+
+
 @method("session.set_hidden")
 def _(rid, params: dict) -> dict:
     """Set/clear ``hidden`` (leaves the default list, stays resumable by its owner) on a session + lineage:

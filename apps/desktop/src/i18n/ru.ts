@@ -3719,7 +3719,10 @@ export const ru = defineLocale({
       restoreNext: 'Восстановить следующий чекпоинт',
       goForward: 'Двигаться вперёд',
       sendEdited: 'Отправить изменённое сообщение',
-      attachingFile: 'Прикрепление…'
+      attachingFile: 'Прикрепление…',
+      archive: 'Архивировать сессию',
+      archiveRecommended: 'рекомендуется',
+      archiveFailed: 'Не удалось архивировать эту сессию'
     },
     approval: {
       gatewayDisconnected: 'Шлюз Hermes не подключён',

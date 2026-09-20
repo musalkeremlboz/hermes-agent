@@ -2869,6 +2869,24 @@
       }
     },
     {
+      "name": "session.closure_hint",
+      "summary": "Read the jev-routing plugin's session-closure hint (advisory label only; never gates an action).",
+      "params": [
+        {
+          "name": "params",
+          "schema": {
+            "$ref": "#/components/schemas/SessionClosureHintParams"
+          }
+        }
+      ],
+      "result": {
+        "name": "result",
+        "schema": {
+          "$ref": "#/components/schemas/SessionClosureHintResult"
+        }
+      }
+    },
+    {
       "name": "session.compress",
       "summary": "Manual /compress of an idle session, optionally focused on a topic.",
       "params": [
@@ -26183,6 +26201,53 @@
           "closed"
         ],
         "title": "SessionCloseResult",
+        "type": "object"
+      },
+      "SessionClosureHintParams": {
+        "additionalProperties": false,
+        "description": "``session_id`` is the stored/live id the hint was written under.",
+        "properties": {
+          "session_id": {
+            "title": "Session Id",
+            "type": "string"
+          },
+          "profile": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Profile"
+          }
+        },
+        "required": [
+          "session_id"
+        ],
+        "title": "SessionClosureHintParams",
+        "type": "object"
+      },
+      "SessionClosureHintResult": {
+        "additionalProperties": false,
+        "description": "``oneri`` is \"arsivle\" or \"bekle\"; a missing or stale hint answers \"bekle\".",
+        "properties": {
+          "oneri": {
+            "title": "Oneri",
+            "type": "string"
+          },
+          "guven": {
+            "default": 0.0,
+            "title": "Guven",
+            "type": "number"
+          }
+        },
+        "required": [
+          "oneri"
+        ],
+        "title": "SessionClosureHintResult",
         "type": "object"
       },
       "SessionCompressParams": {

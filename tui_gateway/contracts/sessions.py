@@ -298,6 +298,25 @@ method("session.set_hidden", params=SessionSetHiddenParams, result=SessionSetHid
        doc="Set/clear hidden (out of the default list, still resumable by its owner) on a session + lineage.")
 
 
+class SessionClosureHintParams(Params):
+    """``session_id`` is the stored/live id the hint was written under."""
+
+    session_id: str
+    profile: str | None = None
+
+
+class SessionClosureHintResult(Result):
+    """``oneri`` is "arsivle" or "bekle"; a missing or stale hint answers "bekle"."""
+
+    oneri: str
+    guven: float = 0.0
+
+
+method("session.closure_hint", params=SessionClosureHintParams, result=SessionClosureHintResult,
+       doc="Read the jev-routing plugin's session-closure hint (advisory label only; never gates an action).")
+
+
+
 class SessionWorkspaceMoveParams(ProfileParams):
     session_key: str
     cwd: str

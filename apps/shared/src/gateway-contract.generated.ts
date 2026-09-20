@@ -2872,6 +2872,16 @@ export interface SessionSetHiddenResult {
   hidden: boolean
   session_key: string
 }
+/** ``session_id`` is the stored/live id the hint was written under. */
+export interface SessionClosureHintParams {
+  session_id: string
+  profile?: string | null
+}
+/** ``oneri`` is "arsivle" or "bekle"; a missing or stale hint answers "bekle". */
+export interface SessionClosureHintResult {
+  oneri: string
+  guven?: number
+}
 export interface SessionWorkspaceMoveParams {
   profile?: string | null
   session_key: string
@@ -4761,6 +4771,8 @@ export interface RpcMethods {
   'session.branch': { params: SessionBranchParams; result: SessionBranchResult }
   /** Tear down a live session (its stored row stays resumable). */
   'session.close': { params: SessionCloseParams; result: SessionCloseResult }
+  /** Read the jev-routing plugin's session-closure hint (advisory label only; never gates an action). */
+  'session.closure_hint': { params: SessionClosureHintParams; result: SessionClosureHintResult }
   /** Manual /compress of an idle session, optionally focused on a topic. */
   'session.compress': { params: SessionCompressParams; result: SessionCompressResult }
   /** Cursor-style split of the context window by category. */
@@ -5059,6 +5071,7 @@ export const RPC_METHODS = [
   'session.active_list',
   'session.branch',
   'session.close',
+  'session.closure_hint',
   'session.compress',
   'session.context_breakdown',
   'session.control',

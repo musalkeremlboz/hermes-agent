@@ -3844,6 +3844,9 @@ export interface Translations {
       goForward: string
       sendEdited: string
       attachingFile: string
+      archive: string
+      archiveRecommended: string
+      archiveFailed: string
     }
     approval: {
       gatewayDisconnected: string
