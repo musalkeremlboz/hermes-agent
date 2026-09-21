@@ -1,5 +1,7 @@
-/** Minutes of quiet before the archive affordance appears on a finished turn. */
-export const ARCHIVE_IDLE_MS = 5 * 60_000
+/** Quiet time before the archive affordance appears on a finished turn. Short
+ *  enough that a user who reads the reply and stops still sees the offer; a
+ *  five-minute gate hid it from everyone who kept working. */
+export const ARCHIVE_IDLE_MS = 30_000
 
 export interface ArchiveAffordanceInput {
   /** The session is mid-turn; never offer to archive live work. */

@@ -12,9 +12,10 @@ import { notifyError } from '@/store/notifications'
 import { $activeProfile } from '@/store/profile'
 import { $activeSessionId, $busy } from '@/store/session'
 
-/** How often the idle clock ticks. Coarse on purpose: this is a 5-minute gate,
- *  not an animation, and a per-second interval on every finished turn is waste. */
-const TICK_MS = 15_000
+/** How often the idle clock ticks. Coarse on purpose: this is a seconds-scale
+ *  gate, not an animation, but it must be well under ARCHIVE_IDLE_MS or the
+ *  affordance lands a whole tick late. */
+const TICK_MS = 5_000
 
 /**
  * Offers "archive this session" on the newest assistant message once the turn
