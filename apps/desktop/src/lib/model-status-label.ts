@@ -80,9 +80,11 @@ function prettifyBase(base: string): string {
   if (/^claude-/i.test(base)) {
     // Anthropic ids spell the version with hyphens (`haiku-4-5`, `fable-5-1`);
     // the human name is dotted ("Haiku 4.5"), not "Haiku 4 5".
+    // Keep the family name: with virtual models like claude-jev-auto next to codex-jev-auto,
+    // a bare "Jev Auto" no longer says which provider row it belongs to.
     return titleCase(
       base
-        .replace(/^claude-/i, '')
+        .replace(/^claude-/i, 'claude ')
         .replace(/(\d)-(?=\d)/g, '$1.')
         .replace(/-/g, ' ')
     )
